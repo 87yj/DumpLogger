@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>In-Cab Combine Dump Logger</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col max-w-md mx-auto">
 
-    <!-- Header -->
     <header class="bg-emerald-900 text-white px-4 py-3 flex justify-between items-center shadow-lg sticky top-0 z-50">
         <div class="flex items-center space-x-2">
             <div class="bg-emerald-700 p-2 rounded-lg">
@@ -28,22 +25,18 @@
         </button>
     </header>
 
-    <!-- Main Mobile Form -->
     <main class="p-4 space-y-4 flex-grow pb-24">
-        
-        <!-- Field Selection & Custom Add -->
+        <!-- Field Selection -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2">
             <label class="text-xs font-semibold text-emerald-400 flex items-center space-x-1">
                 <i class="fa-solid fa-map-location-dot"></i>
                 <span>Active Field (Sticky Selection)</span>
             </label>
-            <select id="fieldSelect" onchange="handleFieldChange(this.value)" class="w-full bg-slate-950 border border-slate-700 text-sm font-bold rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500">
-                <!-- Populated dynamically -->
-            </select>
+            <select id="fieldSelect" onchange="handleFieldChange(this.value)" class="w-full bg-slate-950 border border-slate-700 text-sm font-bold rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500"></select>
             <p id="gpsNote" class="text-[10px] text-slate-400 italic">GPS Status: Ready for positioning...</p>
         </div>
 
-        <!-- Timestamp Controls -->
+        <!-- Timestamp -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2">
             <label class="text-xs font-semibold text-emerald-400 flex items-center space-x-1">
                 <i class="fa-solid fa-clock"></i>
@@ -56,7 +49,7 @@
             </div>
         </div>
 
-        <!-- Tank % Level Steppers -->
+        <!-- Grain Tank Level -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3 text-center">
             <label class="block text-xs font-semibold text-emerald-400 text-left flex items-center space-x-1">
                 <i class="fa-solid fa-cubes-stacked"></i>
@@ -71,34 +64,46 @@
             </div>
         </div>
 
-        <!-- Cumulative Acres & Moisture -->
+        <!-- Yield Monitor Acres & Moisture with Tenths Control -->
         <div class="grid grid-cols-2 gap-3">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2">
-                <label class="text-xs font-semibold text-emerald-400 block">Yield Monitor Acres (Total)</label>
-                <input type="number" id="acresInput" value="0.0" step="0.1" placeholder="e.g. 142.5" class="w-full bg-slate-950 border border-slate-700 text-base font-bold rounded-xl p-2.5 text-center text-white focus:outline-none">
+                <label class="text-xs font-semibold text-emerald-400 block">Yield Acres (Total)</label>
+                <input type="number" id="acresInput" value="0.0" step="0.1" class="w-full bg-slate-950 border border-slate-700 text-base font-bold rounded-xl p-2 text-center text-white focus:outline-none">
+                <div class="grid grid-cols-4 gap-1 pt-1">
+                    <button onclick="adjustAcres(-1.0)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">-1.0</button>
+                    <button onclick="adjustAcres(-0.1)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">-0.1</button>
+                    <button onclick="adjustAcres(0.1)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">+0.1</button>
+                    <button onclick="adjustAcres(1.0)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">+1.0</button>
+                </div>
             </div>
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2">
-                <label class="text-xs font-semibold text-emerald-400 block">Moisture Estimate (%)</label>
-                <input type="number" id="moistureInput" value="18.5" step="0.1" class="w-full bg-slate-950 border border-slate-700 text-base font-bold rounded-xl p-2.5 text-center text-white focus:outline-none">
+                <label class="text-xs font-semibold text-emerald-400 block">Moisture (%)</label>
+                <input type="number" id="moistureInput" value="18.5" step="0.1" class="w-full bg-slate-950 border border-slate-700 text-base font-bold rounded-xl p-2 text-center text-white focus:outline-none">
+                <div class="grid grid-cols-4 gap-1 pt-1">
+                    <button onclick="adjustMoisture(-1.0)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">-1.0</button>
+                    <button onclick="adjustMoisture(-0.1)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">-0.1</button>
+                    <button onclick="adjustMoisture(0.1)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">+0.1</button>
+                    <button onclick="adjustMoisture(1.0)" class="bg-slate-800 hover:bg-slate-700 py-1.5 rounded-lg text-[10px] font-bold">+1.0</button>
+                </div>
             </div>
         </div>
 
-        <!-- Field Notes Input -->
+        <!-- Notes -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2">
             <label class="text-xs font-semibold text-emerald-400 block flex items-center space-x-1">
                 <i class="fa-solid fa-note-sticky"></i>
                 <span>Dump Notes (Optional)</span>
             </label>
-            <input type="text" id="notesInput" placeholder="e.g., Long elevator wait, green spots in bottom" class="w-full bg-slate-950 border border-slate-700 text-xs rounded-xl p-3 text-white focus:outline-none">
+            <input type="text" id="notesInput" placeholder="e.g., Long elevator wait" class="w-full bg-slate-950 border border-slate-700 text-xs rounded-xl p-3 text-white focus:outline-none">
         </div>
 
-        <!-- Big Save Button -->
+        <!-- Save Button -->
         <button onclick="saveCombineDump()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-2xl shadow-xl transition text-base flex items-center justify-center space-x-2">
             <i class="fa-solid fa-floppy-disk text-lg"></i>
             <span>SAVE COMBINE DUMP</span>
         </button>
 
-        <!-- Running Tally Card -->
+        <!-- Running Tally -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2">
             <h2 class="font-bold text-xs text-emerald-400 flex items-center space-x-1">
                 <i class="fa-solid fa-chart-pie"></i>
@@ -120,7 +125,7 @@
             </div>
         </div>
 
-        <!-- Recent Logs Table -->
+        <!-- Logs Table -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
             <div class="flex justify-between items-center">
                 <h2 class="font-bold text-xs text-emerald-400 flex items-center space-x-1">
@@ -137,7 +142,7 @@
                             <th class="p-2">Field</th>
                             <th class="p-2">Tank</th>
                             <th class="p-2">Delta</th>
-                            <th class="p-2">Hst</th>
+                            <th class="p-2">MST</th>
                         </tr>
                     </thead>
                     <tbody id="logTableBody" class="divide-y divide-slate-800">
@@ -146,16 +151,13 @@
                 </table>
             </div>
         </div>
-
     </main>
 
-    <!-- Footer Config -->
     <footer class="bg-slate-900 border-t border-slate-800 p-3 fixed bottom-0 max-w-md w-full z-40">
         <input type="text" id="syncUrlInput" value="https://script.google.com/macros/s/AKfycbxsbmIXBt3ev_J18mgCOXcBvDIyCx4DPzFEurOKMtb0l8yTAuPdNQLIWf7CP-ayj_Lu/exec" class="w-full bg-slate-950 border border-slate-800 text-[10px] rounded-lg p-2 text-slate-400 font-mono focus:outline-none">
     </footer>
 
     <script>
-        // Master list + any custom fields saved on device
         let defaultFields = ["S1", "N1", "N34", "HN", "HS", "NS", "DM", "D2", "R1", "JS", "PB", "A2", "NM", "A4", "A1", "M3", "M2", "M1", "W1", "W2", "SW", "RV"];
         let currentTankPct = 100;
         let cachedDumps = JSON.parse(localStorage.getItem('combine_dumps_cache') || '[]');
@@ -164,6 +166,7 @@
         window.onload = function() {
             setTimestampNow();
             populateFieldDropdown();
+            initSmartInputs();
             updateTallyAndTable();
             detectFieldGPS();
         };
@@ -187,12 +190,35 @@
             document.getElementById('tankDisplay').innerText = currentTankPct + '%';
         }
 
-        // POPULATE FIELD DROPDOWN WITH CUSTOM FIELD SUPPORT & STICKY SELECTION
+        function adjustAcres(amt) {
+            let input = document.getElementById('acresInput');
+            let val = parseFloat(input.value) || 0;
+            let newVal = Math.max(0, Math.round((val + amt) * 10) / 10);
+            input.value = newVal.toFixed(1);
+        }
+
+        function adjustMoisture(amt) {
+            let input = document.getElementById('moistureInput');
+            let val = parseFloat(input.value) || 18.0;
+            let newVal = Math.max(5, Math.min(40, Math.round((val + amt) * 10) / 10));
+            input.value = newVal.toFixed(1);
+        }
+
+        function initSmartInputs() {
+            if (cachedDumps.length > 0) {
+                let last = cachedDumps[0];
+                if (last.cumulativeAcres !== undefined) {
+                    document.getElementById('acresInput').value = Number(last.cumulativeAcres).toFixed(1);
+                }
+                if (last.moisture !== undefined) {
+                    document.getElementById('moistureInput').value = Number(last.moisture).toFixed(1);
+                }
+            }
+        }
+
         function populateFieldDropdown(selectedCode = null) {
             const select = document.getElementById('fieldSelect');
             select.innerHTML = '';
-
-            // Retrieve custom added fields from localStorage if any
             let customFields = JSON.parse(localStorage.getItem('custom_farm_fields') || '[]');
             let allFields = [...new Set([...defaultFields, ...customFields])];
 
@@ -203,13 +229,11 @@
                 select.appendChild(opt);
             });
 
-            // Add option to create a new field
             let addOpt = document.createElement('option');
             addOpt.value = "ADD_NEW_FIELD";
             addOpt.innerText = "+ Add New Field...";
             select.appendChild(addOpt);
 
-            // Restore sticky selection (from argument or localStorage)
             let lastSelected = selectedCode || localStorage.getItem('sticky_active_field');
             if (lastSelected && allFields.includes(lastSelected)) {
                 select.value = lastSelected;
@@ -221,7 +245,7 @@
 
         function handleFieldChange(val) {
             if (val === "ADD_NEW_FIELD") {
-                let newCode = prompt("Enter new field code/name (e.g. 'EAST80' or 'NX'):");
+                let newCode = prompt("Enter new field code/name:");
                 if (newCode && newCode.trim() !== "") {
                     newCode = newCode.trim().toUpperCase();
                     let customFields = JSON.parse(localStorage.getItem('custom_farm_fields') || '[]');
@@ -232,38 +256,29 @@
                     populateFieldDropdown(newCode);
                     localStorage.setItem('sticky_active_field', newCode);
                 } else {
-                    // Revert to previous sticky selection if cancelled
                     populateFieldDropdown();
                 }
             } else {
-                // Save sticky selection
                 localStorage.setItem('sticky_active_field', val);
             }
         }
 
         function detectFieldGPS() {
             const gpsNote = document.getElementById('gpsNote');
-            if (!navigator.geolocation) {
-                gpsNote.innerText = "GPS not supported by browser.";
-                return;
-            }
-            gpsNote.innerText = "Acquiring GPS fix...";
+            if (!navigator.geolocation) return;
             navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    currentLat = position.coords.latitude;
-                    currentLon = position.coords.longitude;
-                    gpsNote.innerHTML = `GPS Locked: ${currentLat.toFixed(4)}, ${currentLon.toFixed(4)}`;
+                (pos) => {
+                    currentLat = pos.coords.latitude;
+                    currentLon = pos.coords.longitude;
+                    gpsNote.innerText = `GPS Locked: ${currentLat.toFixed(4)}, ${currentLon.toFixed(4)}`;
                 },
-                (error) => {
-                    gpsNote.innerText = "GPS acquisition failed (using manual selection).";
-                },
+                (err) => { gpsNote.innerText = "GPS acquisition failed (manual mode active)."; },
                 { timeout: 10000, enableHighAccuracy: true }
             );
         }
 
         function saveCombineDump() {
-            let currentCumulativeAcres = parseFloat(document.getElementById('acresInput').value) || 0;
-            
+            let currentCumulativeAcres = parseFloat(parseFloat(document.getElementById('acresInput').value).toFixed(1)) || 0;
             let lastDump = cachedDumps.length > 0 ? cachedDumps[0] : null;
             let previousCumulative = lastDump ? (lastDump.cumulativeAcres || 0) : 0;
             let deltaAcres = currentCumulativeAcres >= previousCumulative ? (currentCumulativeAcres - previousCumulative) : currentCumulativeAcres;
@@ -274,8 +289,8 @@
                 fieldCode: document.getElementById('fieldSelect').value,
                 tankPct: currentTankPct,
                 cumulativeAcres: currentCumulativeAcres,
-                deltaAcres: parseFloat(deltaAcres.toFixed(2)),
-                moisture: parseFloat(document.getElementById('moistureInput').value) || 0,
+                deltaAcres: parseFloat(deltaAcres.toFixed(1)),
+                moisture: parseFloat(parseFloat(document.getElementById('moistureInput').value).toFixed(1)) || 0,
                 notes: document.getElementById('notesInput').value.trim(),
                 lat: currentLat,
                 lon: currentLon,
@@ -289,7 +304,6 @@
             document.getElementById('tankDisplay').innerText = '100%';
             document.getElementById('notesInput').value = '';
             setTimestampNow();
-
             updateTallyAndTable();
             alert(`Dump saved successfully! (Delta: ${record.deltaAcres} ac)`);
         }
@@ -297,7 +311,6 @@
         function updateTallyAndTable() {
             const tbody = document.getElementById('logTableBody');
             const syncBtnText = document.getElementById('syncBtnText');
-            
             let unsyncedCount = cachedDumps.filter(d => !d.synced).length;
             syncBtnText.innerText = `Sync (${unsyncedCount})`;
 
@@ -327,8 +340,8 @@
                     <td class="p-2 font-mono">${timeStr}</td>
                     <td class="p-2 font-bold text-emerald-300">${d.fieldCode}</td>
                     <td class="p-2">${d.tankPct}%</td>
-                    <td class="p-2">+${d.deltaAcres} ac</td>
-                    <td class="p-2">${d.moisture}% ${syncIcon}</td>
+                    <td class="p-2">+${Number(d.deltaAcres).toFixed(1)} ac</td>
+                    <td class="p-2">${Number(d.moisture).toFixed(1)}% ${syncIcon}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -348,7 +361,7 @@
                 dumps: unsynced
             };
 
-            document.getElementById('syncStatus').innerText = "Syncing to Tabular Sheet...";
+            document.getElementById('syncStatus').innerText = "Syncing...";
             try {
                 await fetch(url, {
                     method: 'POST',
@@ -360,11 +373,10 @@
                 cachedDumps.forEach(d => d.synced = true);
                 localStorage.setItem('combine_dumps_cache', JSON.stringify(cachedDumps));
                 updateTallyAndTable();
-
                 document.getElementById('syncStatus').innerText = "Sync Complete";
-                alert("Successfully synced combine dumps to the CombineDumps sheet!");
+                alert("Successfully synced combine dumps!");
             } catch (err) {
-                document.getElementById('syncStatus').innerText = "Sync failed (cached offline)";
+                document.getElementById('syncStatus').innerText = "Sync failed (offline cached)";
                 alert("Sync dispatched in background mode.");
             }
         }
